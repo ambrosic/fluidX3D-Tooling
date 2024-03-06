@@ -34,7 +34,6 @@ Eventually this will also handle archiving the images from old runs and clearing
 
 One-stop-shop script that gets submitted via ``sbatch`` to the HPC cluster.
 
-
 ### ``batchjob.sh``
 
 This is the part that builds and runs FluidX3D and contains the necessary slurm commands to get a GPU instance.
