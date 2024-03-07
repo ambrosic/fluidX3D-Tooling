@@ -1,0 +1,17 @@
+{
+    "renderWindow":{
+        "width":7680,
+        "height":4320
+    },
+    "targetPlatform":"LOCAL",
+    "baseDir":"$PWD",
+    
+    "repository":{
+        "url":"https://github.com/ambrosic/FluidX3D.git",
+        "branch":"master"
+    },
+    "postprocessor":{
+        "createImageArchive":true,
+        "clearTempFolder":true
+    }
+}

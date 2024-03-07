@@ -14,3 +14,17 @@ I hate reinventing the wheel & looking for the same information twice...
     - Spoiler: not much
     - Good news?  CPU heterogeneity- all Xeon Gold 6240 CPU's.
     - ![two GPU nodes, two high memory nodes, and 16 compute nodes](docs/wsuComputeResources.png)
+
+### Python on BeoShock
+
+- create a folder for virtual environments:
+   - ``mkdir ~/virtualenvs``
+ - create a virtual environment:
+  - ``cd ~/virtualenvs``
+  - ``virtualenv test``
+- Now you can install modules and the like.
+- Once you log off, your virtual environment will be discarded, so load it by running:
+  - ``source ~/virtualenvs/test/bin/activate``
+- or, alternatively, make a bash script that loads your environment and your scheduler that you wrote in python to get away from ``jq`` and that you were hoping would be the be-all end-all of your programming scripts.  Ack.
+- this might also be useful:
+  - <https://www.geeksforgeeks.org/how-to-automatically-install-required-packages-from-a-python-script/>
