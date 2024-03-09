@@ -4,6 +4,7 @@ from git import Repo
 import subprocess
 import os
 from multiprocessing import Process
+import re
 
 # requires the gitPython library, if not installed, run ``pip install gitpython``.
 
@@ -47,6 +48,9 @@ def clone_or_checkout_repository(repo_url, local_folder, branch='master'):
 
     # Checkout the specified branch
     repo.git.checkout(branch)
+    repo.git.reset('--hard')
+    repo.remotes.origin.pull()
+    
     print(f"Checked out branch: {branch}")
 
 
