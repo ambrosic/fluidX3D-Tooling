@@ -3,8 +3,10 @@ from enum import Enum
 from git import Repo
 import subprocess
 import os
+from multiprocessing import Process
 
 # requires the gitPython library, if not installed, run ``pip install gitpython``.
+
 
 
 configRaw = open('config.json')
@@ -16,22 +18,17 @@ target = config['targetPlatform']
 repoPath = "temp/fx3d"
 
 #relative path for image files inside of the repo folder.
-exportPath = "bin/export"
+imageParentFolder = "bin/export"
 
+# where should the converted videos go?
+videoOutput = "bin/videoOutput"
 
 # for case switching on stuff that's platform dependent
 class platform(Enum):
-    LOCAL="LOCAL"
-    BEOSHOCK="BEOSHOCK"
-    GENERIC_HPC="GENERIC_HPC"
-    WINDOWS="WINDOWS"
+    BEOSHOCK="BEOSHOCK" # Wichita State University's SLURM-controlled HPC Node
+    GENERIC_HPC="GENERIC_HPC" # Singular Linux-running HEDT / HPC machine
+    WINDOWS="WINDOWS" # single machine running Windows with WSL2 installed (also assumes you're using Ubuntu on WSL).
 
-
-print(target)
-print(platform.LOCAL.value)
-
-if(target == platform.LOCAL.value):
-    print(config['postprocessor'])
 
 
 # I'll be writing these steps as if for BeoShock and not anything else for starters.
@@ -56,14 +53,37 @@ def clone_or_checkout_repository(repo_url, local_folder, branch='master'):
 
 clone_or_checkout_repository(config['repository']['url'],repoPath , config['repository']['branch'])
 
-# subprocess.run(["chmod","u+x /bin/temp/make.sh"])
 
-# STEP TWO: RUN / SCHEDULE BUILD SCRIPT
+# STEP TWO: chmod all scripts in this repo's base folder and in FluidX3D's base folder.
+
+def list_bash_files(directory_path):
+    bash_files = [os.path.join(directory_path,f) for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f)) and f.endswith(".sh")]
+    return bash_files
+
+def touch_files(files):
+    for file in files:
+        # subprocess.run(["chmod",f"+x {file}"])
+        os.chmod(file,0o755)
+
+processingScripts = list_bash_files(".")
+# touch_files(processingScripts)
+print(processingScripts)
+
+repoScripts = list_bash_files(repoPath)
+# print(repoScripts)
+touch_files(repoScripts)
+
+
+
+# STEP THREE: RUN / SCHEDULE BUILD SCRIPT
+
+makeExecutionID = ""
 
 if(target == platform.BEOSHOCK.value):
     print("Running Beoshock Make Command")
-    subprocess.run(["echo","'sbatch --parsable temp/fx3d/make.sh'"])
-elif(target == platform.LOCAL.value):
+    makeExecutionID = subprocess.check_output(["sbatch","--parsable temp/fx3d/make.sh"])
+    print(makeExecutionID)
+elif(target == platform.WINDOWS.value):
     print("Build on local platform")
     # subprocess.run(["temp/test/make.sh"])
 
@@ -75,23 +95,29 @@ def get_immediate_subdirectories(directory):
     return [f for f in os.listdir(directory) if os.path.isdir(os.path.join(directory, f))]
 
 
-get_immediate_subdirectories(os.path.join(repoPath,exportPath))
+
+imageFolders = get_immediate_subdirectories(os.path.join(repoPath,imageParentFolder))
 
 
 
-
+subprocessIDs = []
 if(target == platform.BEOSHOCK.value):
-    print("Batching out Beoshock commands")
-elif(target == platform.LOCAL.value):
-    print("RUNNING On Local Platform")
+    print("Scheduling Post-Processor on BeoShock")
+    for dir in imageFolders:
+        inputPath = os.path.join(repoPath,imageParentFolder,dir)
+        subprocessIDs.append(subprocess.check_output(["sbatch",f"--parsable --dependency=aftercorr:{makeExecutionID} postprocess_python.sh {inputPath} {videoOutput} {dir}"]))
+    
+elif(target == platform.GENERIC_HPC.value):
+    print("Scheduling Post-Processor on Local Machine")
+
+print(subprocessIDs)
 
 
 
-
-# test = subprocess.run(["Write-Host","hi"])
-test1 = subprocess.run(['wsl',"chmod u+x temp/test/make.sh"],cwd=os.getcwd())
-test3 = subprocess.run(['wsl','ls'])
-test2 = subprocess.run(['wsl',"temp/test/make.sh"])
-test2.args
-print("completed testing")
+# # test = subprocess.run(["Write-Host","hi"])
+# test1 = subprocess.run(['wsl',"chmod u+x temp/test/make.sh"],cwd=os.getcwd())
+# test3 = subprocess.run(['wsl','ls'])
+# test2 = subprocess.run(['wsl',"temp/test/make.sh"])
+# test2.args
+# print("completed testing")
 

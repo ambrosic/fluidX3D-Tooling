@@ -8,7 +8,7 @@
     
     "repository":{
         "url":"https://github.com/ambrosic/FluidX3D.git",
-        "branch":"master"
+        "branch":"process-tooling"
     },
     "postprocessor":{
         "createImageArchive":true,
