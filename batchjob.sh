@@ -6,7 +6,7 @@
 #SBATCH --parsable
 
 # goals: get a GPU run
-module load foss/2022b CUDA/11.7.0
+module load foss/2022a CUDA/11.7.0
 
 
 date=$(date '+%Y-%m-%d_%H_%M_%S')

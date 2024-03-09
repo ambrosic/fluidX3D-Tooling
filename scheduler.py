@@ -77,7 +77,8 @@ repoScripts = list_bash_files(repoPath)
 # print(repoScripts)
 touch_files(repoScripts)
 
-
+def cleanJobID(inputString):
+    return re.sub("\D",'',inputString).rstrip()
 
 # STEP THREE: RUN / SCHEDULE BUILD SCRIPT
 
@@ -85,7 +86,7 @@ makeExecutionID = ""
 
 if(target == platform.BEOSHOCK.value):
     print("Running Beoshock Make Command")
-    makeExecutionID = subprocess.check_output(["sbatch","batchjob.sh"]).rstrip()
+    makeExecutionID = cleanJobID(subprocess.check_output(["sbatch","batchjob.sh"]))
     print(makeExecutionID)
 elif(target == platform.WINDOWS.value):
     print("Build on local platform")
@@ -111,7 +112,7 @@ if(target == platform.BEOSHOCK.value):
     print("Scheduling Post-Processor on BeoShock")
     for dir in imageFolders:
         inputPath = os.path.join(repoPath,imageParentFolder,dir)
-        subprocessIDs.append(subprocess.check_output(["sbatch",f"--parsable --dependency=aftercorr:{makeExecutionID} postprocess_python.sh {inputPath} {videoOutput} {dir}"]).rstrip())
+        subprocessIDs.append(cleanJobID(subprocess.check_output(["sbatch",f"--parsable --dependency=aftercorr:{makeExecutionID} postprocess_python.sh {inputPath} {videoOutput} {dir}"])))
     
 elif(target == platform.GENERIC_HPC.value):
     print("Scheduling Post-Processor on Local Machine")
