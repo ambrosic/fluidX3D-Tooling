@@ -1,8 +1,9 @@
-#/bin/bash
+#!/bin/bash
 #SBATCH --nodes=1 --ntasks=1
 #SBATCH --time=2:00:00
-#SBATCH --mem=12G --cpus-per-task=4
+#SBATCH --mem=12G --cpus-per-task=8
 #SBATCH --gres=gpu:2
+#SBATCH --parsable
 
 # goals: get a GPU run
 module load foss/2022b CUDA/11.7.0
@@ -55,7 +56,7 @@ GPUINFO=(nvidia-smi)
 echo "$DIVIDER"
 
 echo '$DIVIDER'
-cd "$HOME/ambrosic/FluidX3D"
+cd "$HOME/github/fluidX3D-Tooling/temp/fx3d"
 
 #source /make.sh > "$HOME/logs/${date}-FLUIDX3D.txt"
 

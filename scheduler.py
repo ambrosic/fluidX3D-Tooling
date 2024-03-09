@@ -81,7 +81,7 @@ makeExecutionID = ""
 
 if(target == platform.BEOSHOCK.value):
     print("Running Beoshock Make Command")
-    makeExecutionID = subprocess.check_output(["sbatch","--parsable temp/fx3d/make.sh"])
+    makeExecutionID = subprocess.check_output(["sbatch","batchjob.sh"])
     print(makeExecutionID)
 elif(target == platform.WINDOWS.value):
     print("Build on local platform")
@@ -95,9 +95,11 @@ def get_immediate_subdirectories(directory):
     return [f for f in os.listdir(directory) if os.path.isdir(os.path.join(directory, f))]
 
 
-
-imageFolders = get_immediate_subdirectories(os.path.join(repoPath,imageParentFolder))
-
+try:
+    imageFolders = get_immediate_subdirectories(os.path.join(repoPath,imageParentFolder))
+except:
+    print("unable to load folders, skipping post-process scheduler")
+    exit()
 
 
 subprocessIDs = []
