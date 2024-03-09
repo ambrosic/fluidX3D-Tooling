@@ -3,3 +3,4 @@ videoOutput/
 .vscode/
 temp/
 output/
+*.out
