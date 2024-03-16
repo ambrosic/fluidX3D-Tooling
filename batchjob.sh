@@ -68,14 +68,14 @@ GPUINFO=(nvidia-smi)
 echo "$DIVIDER"
 
 echo '$DIVIDER'
-cd "$HOME/github/fluidX3D-Tooling/temp/fx3d"
+#cd "$HOME/github/fluidX3D-Tooling/temp/fx3d"
 
 #source /make.sh > "$HOME/logs/${date}-FLUIDX3D.txt"
 
 
-printf "${GPUINFO}\n${DIVIDER}\n${NODEINFO}" > "$HOME/logs/${date}.txt"
+#printf "${GPUINFO}\n${DIVIDER}\n${NODEINFO}" > "$HOME/logs/${date}.txt"
 # OUTPUT=(source /make.sh)
-printf "${DIVIDER}\n${OUTPUT}\n" > "$HOME/logs/${date}-FLUIDX3D.txt"
-cat "$HOME/logs/${date}.txt"
-
-./make.sh
+#printf "${DIVIDER}\n${OUTPUT}\n" > "$HOME/logs/${date}-FLUIDX3D.txt"
+#cat "$HOME/logs/${date}.txt"
+chmod +x "temp/fx3d/make.sh"
+./temp/fx3d/make.sh
