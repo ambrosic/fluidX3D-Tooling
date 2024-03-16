@@ -78,7 +78,7 @@ repoScripts = list_bash_files(repoPath)
 touch_files(repoScripts)
 
 def cleanJobID(inputString):
-    return re.sub("\D",'',inputString).rstrip()
+    return str(re.sub("\D",'',str(inputString).rstrip()))
 
 # STEP THREE: RUN / SCHEDULE BUILD SCRIPT
 
@@ -91,6 +91,9 @@ if(target == platform.BEOSHOCK.value):
 elif(target == platform.WINDOWS.value):
     print("Build on local platform")
     # subprocess.run(["temp/test/make.sh"])
+elif(target == platform.GENERIC_HPC.value):
+    print("Running on Linux machine")
+    makeExecutionID = cleanJobID(subprocess.check_output(['bash','batchjob.sh']))
 
 
 # STEP FOUR: RUN/SCHEDULE FFmpeg video encoding per-camera
@@ -116,6 +119,9 @@ if(target == platform.BEOSHOCK.value):
     
 elif(target == platform.GENERIC_HPC.value):
     print("Scheduling Post-Processor on Local Machine")
+    for dir in imageFolders:
+        inputPath = os.path.join(repoPath,imageParentFolder,dir)
+        print(f'{dir}',subprocess.check_output(['bash',f'postprocess_python.sh {inputPath} {videoOutput} {dir}']))
 
 print(subprocessIDs)
 
