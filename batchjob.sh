@@ -78,4 +78,5 @@ echo "${DIVIDER}"
 #printf "${DIVIDER}\n${OUTPUT}\n" > "$HOME/logs/${date}-FLUIDX3D.txt"
 #cat "$HOME/logs/${date}.txt"
 chmod +x "temp/fx3d/make.sh"
-./temp/fx3d/make.sh
+cd temp/fx3d
+./make.sh

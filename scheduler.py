@@ -70,8 +70,8 @@ def touch_files(files):
         os.chmod(file,0o755)
 
 processingScripts = list_bash_files(".")
-# touch_files(processingScripts)
-print(processingScripts)
+touch_files(processingScripts)
+# print(processingScripts)
 
 repoScripts = list_bash_files(repoPath)
 # print(repoScripts)
