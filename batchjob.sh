@@ -8,12 +8,12 @@
 # Platform variation fixing:
 platform=$1
 
-if ["${platform}" = "BEOSHOCK"]; then
+if [[ "${platform}" = "BEOSHOCK" ]]; then
     printf "loading modules"
     module load foss/2022a CUDA/11.7.0
-elif ["${platform}" = "GENERIC_HPC"]; then
+elif [[ "${platform}" = "GENERIC_HPC" ]]; then
     printf "BATCHJOB: GENERIC LINUX"
-elif ["${platform}" = "WINDOWS"]; then
+elif [[ "${platform}" = "WINDOWS" ]]; then
     printf "TARGET PLATFORM: WINDOWS.  UNTESTED!"
 fi
 
