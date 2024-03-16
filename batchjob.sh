@@ -9,12 +9,12 @@
 platform=$1
 
 if ["${platform}" = "BEOSHOCK"]; then
-    printf("loading modules")
+    printf "loading modules"
     module load foss/2022a CUDA/11.7.0
 elif ["${platform}" = "GENERIC_HPC"]; then
-    printf("BATCHJOB: GENERIC LINUX")
+    printf "BATCHJOB: GENERIC LINUX"
 elif ["${platform}" = "WINDOWS"]; then
-    printf("TARGET PLATFORM: WINDOWS.  UNTESTED!")
+    printf "TARGET PLATFORM: WINDOWS.  UNTESTED!"
 fi
 
 
