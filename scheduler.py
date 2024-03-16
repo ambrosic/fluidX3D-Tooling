@@ -93,7 +93,7 @@ elif(target == platform.WINDOWS.value):
     subprocess.run(['bash',f"batchjob.sh {target}"])
 elif(target == platform.GENERIC_HPC.value):
     print("Running on Linux machine")
-    print(subprocess.check_output(['bash',f'batchjob.sh {target}']))
+    print(subprocess.check_output(['./batchjob.sh',f'{target}']))
 
 
 # STEP FOUR: RUN/SCHEDULE FFmpeg video encoding per-camera
