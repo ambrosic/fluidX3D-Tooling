@@ -4,3 +4,4 @@ videoOutput/
 temp/
 output/
 *.out
+logs/
