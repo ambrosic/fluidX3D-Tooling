@@ -65,9 +65,9 @@ TMPDIR ${TMPDIR}\n \
 USER ${USER}\n")
 GPUINFO=(nvidia-smi)
 
-echo "$DIVIDER"
+echo "${DIVIDER}"
 
-echo '$DIVIDER'
+# echo '$DIVIDER'
 #cd "$HOME/github/fluidX3D-Tooling/temp/fx3d"
 
 #source /make.sh > "$HOME/logs/${date}-FLUIDX3D.txt"
