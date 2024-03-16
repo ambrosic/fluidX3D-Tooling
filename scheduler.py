@@ -86,14 +86,14 @@ makeExecutionID = ""
 
 if(target == platform.BEOSHOCK.value):
     print("Running Beoshock Make Command")
-    makeExecutionID = cleanJobID(subprocess.check_output(["sbatch","batchjob.sh"]))
+    makeExecutionID = cleanJobID(subprocess.check_output(["sbatch",f"batchjob.sh {target}"]))
     print(makeExecutionID)
 elif(target == platform.WINDOWS.value):
     print("Build on local platform")
-    # subprocess.run(["temp/test/make.sh"])
+    subprocess.run(['bash',f"batchjob.sh {target}"])
 elif(target == platform.GENERIC_HPC.value):
     print("Running on Linux machine")
-    makeExecutionID = cleanJobID(subprocess.check_output(['bash','batchjob.sh']))
+    makeExecutionID = cleanJobID(subprocess.check_output(['bash',f'batchjob.sh {target}']))
 
 
 # STEP FOUR: RUN/SCHEDULE FFmpeg video encoding per-camera

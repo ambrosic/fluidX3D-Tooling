@@ -5,8 +5,20 @@
 #SBATCH --gres=gpu:2
 #SBATCH --parsable
 
+# Platform variation fixing:
+platform=$1
+
+if ["${platform}" = "BEOSHOCK"]; then
+    printf("loading modules")
+    module load foss/2022a CUDA/11.7.0
+elif ["${platform}" = "GENERIC_HPC"]; then
+    printf("BATCHJOB: GENERIC LINUX")
+elif ["${platform}" = "WINDOWS"]; then
+    printf("TARGET PLATFORM: WINDOWS.  UNTESTED!")
+fi
+
+
 # goals: get a GPU run
-module load foss/2022a CUDA/11.7.0
 
 
 date=$(date '+%Y-%m-%d_%H_%M_%S')
